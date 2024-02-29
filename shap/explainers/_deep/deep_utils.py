@@ -21,3 +21,8 @@ def _check_additivity(explainer, model_output_values, output_phis):
                                     "rounding error or because an operator in your computation graph was not fully supported. If " \
                                     "the sum difference of %f is significant compared to the scale of your model outputs, please post " \
                                     f"as a github issue, with a reproducible example so we can debug it. Used framework: {explainer.framework} - Max. diff: {maxdiff} - Tolerance: {TOLERANCE}"
+
+def standard_combine_mult_and_diffref(mult, orig_inp, bg_data):
+    ret = [(mult[l]*(orig_inp[l] - bg_data[l])).mean(0)
+                 for l in range(len(orig_inp))]
+    return ret
